@@ -11,7 +11,7 @@ using dotnet_api_test;
 
 namespace dotnet_api_test.Migrations
 {
-    [DbContext(typeof(ApplicationDbContex))]
+    [DbContext(typeof(ApplicationDbContext))]
     [Migration("20250215231704_InitialCreate")]
     partial class InitialCreate
     {
