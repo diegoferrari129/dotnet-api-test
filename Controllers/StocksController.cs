@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using dotnet_api_test;
+using dotnet_api_test.Dtos.Stock;
+using dotnet_api_test.Mappers;
 
 namespace dotnet_api_test.Controllers
 {
@@ -24,7 +26,8 @@ namespace dotnet_api_test.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Stock>>> GetStocks()
         {
-            return await _context.Stocks.ToListAsync();
+            var stocks = await _context.Stocks.ToListAsync();
+            return Ok(stocks.Select(s => s.ToStockDto()));
         }
 
         // GET: api/Stocks/5
@@ -38,7 +41,7 @@ namespace dotnet_api_test.Controllers
                 return NotFound();
             }
 
-            return Ok(stock);
+            return Ok(stock.ToStockDto());
         }
 
         // PUT: api/Stocks/5
