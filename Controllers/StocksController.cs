@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using dotnet_api_test;
 using dotnet_api_test.Dtos.Stock;
 using dotnet_api_test.Mappers;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
 
 namespace dotnet_api_test.Controllers
 {
@@ -78,12 +79,13 @@ namespace dotnet_api_test.Controllers
         // POST: api/Stocks
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Stock>> PostStock(Stock stock)
+        public async Task<IActionResult> Create([FromBody] CreateStockRequestDto stockDto)
         {
-            _context.Stocks.Add(stock);
+            var stockModel = stockDto.ToStockFromCreateDto();
+            await _context.Stocks.AddAsync(stockModel);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetStock", new { id = stock.Id }, stock);
+            return CreatedAtAction("GetStock", new { id = stockModel.Id }, stockModel.ToStockDto());
         }
 
         // DELETE: api/Stocks/5
