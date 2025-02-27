@@ -9,6 +9,7 @@ using dotnet_api_test;
 using dotnet_api_test.Dtos.Stock;
 using dotnet_api_test.Mappers;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
+using dotnet_api_test.interfaces;
 
 namespace dotnet_api_test.Controllers
 {
@@ -17,9 +18,11 @@ namespace dotnet_api_test.Controllers
     public class StocksController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        private readonly IStockRepository _stockRepo;
 
-        public StocksController(ApplicationDbContext context)
+        public StocksController(ApplicationDbContext context, IStockRepository stockRepo)
         {
+            _stockRepo = stockRepo;
             _context = context;
         }
 
@@ -27,7 +30,7 @@ namespace dotnet_api_test.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Stock>>> GetStocks()
         {
-            var stocks = await _context.Stocks.ToListAsync();
+            var stocks = await _stockRepo.GetAllAsync();
             return Ok(stocks.Select(s => s.ToStockDto()));
         }
 
