@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace dotnet_api_test;
 
-public class CommentRepository : ICommentkRepository
+public class CommentRepository : ICommentRepository
 {
     private readonly ApplicationDbContext _context;
     public CommentRepository(ApplicationDbContext context)
