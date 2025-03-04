@@ -26,5 +26,7 @@ public class CommentController : ControllerBase
     public async Task<IActionResult> GetAll()
     {
         var comments = await _commentRepo.GetAllAsync();
+        var commentDto = comments.Select(s => s.ToCommentDto());
+        return Ok(commentDto);
     }
 }
